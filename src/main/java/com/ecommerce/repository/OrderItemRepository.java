@@ -1,0 +1,15 @@
+package com.ecommerce.repository;
+
+import com.ecommerce.entity.OrderItem;
+import com.ecommerce.entity.Order;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
+
+    // 📦 Get items of an order
+    List<OrderItem> findByOrder(Order order);
+}
