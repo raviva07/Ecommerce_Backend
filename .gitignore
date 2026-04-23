@@ -1,6 +1,15 @@
 HELP.md
+<<<<<<< HEAD
 target/
 .mvn/wrapper/maven-wrapper.jar
+=======
+
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# Allow nested targets (optional)
+>>>>>>> 56e2a306800befd2dddc30112c642be951c7d6ab
 !**/src/main/**/target/
 !**/src/test/**/target/
 
@@ -13,6 +22,7 @@ target/
 .springBeans
 .sts4-cache
 
+<<<<<<< HEAD
 ### IntelliJ IDEA ###
 .idea
 *.iws
@@ -31,3 +41,15 @@ build/
 
 ### VS Code ###
 .vscode/
+=======
+### IntelliJ ###
+.idea
+*.iml
+
+### VS Code ###
+.vscode/
+
+### OS ###
+.DS_Store
+Thumbs.db
+>>>>>>> 56e2a306800befd2dddc30112c642be951c7d6ab
