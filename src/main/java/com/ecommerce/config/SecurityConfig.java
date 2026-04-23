@@ -29,11 +29,11 @@ public class SecurityConfig {
 
                 // ✅ PUBLIC ENDPOINTS
                 .requestMatchers(
-                        "/api/auth/**",          // register/login
-                        "/v3/api-docs/**",       // OpenAPI docs
-                        "/swagger-ui/**",        // Swagger UI resources
-                        "/swagger-ui.html",      // Swagger UI HTML
-                        "/api-docs/**"           // legacy docs path
+                        "/api/auth/**",
+                        "/v3/api-docs/**",
+                        "/swagger-ui/**",
+                        "/swagger-ui.html",
+                        "/api-docs/**"
                 ).permitAll()
 
                 // ✅ PRODUCTS
@@ -42,7 +42,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.PUT, "/api/products/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/api/products/**").hasRole("ADMIN")
 
-                // ✅ CART (CUSTOMER ONLY)
+                // ✅ CART
                 .requestMatchers("/api/cart/**").hasRole("CUSTOMER")
 
                 // ✅ ORDERS
@@ -66,7 +66,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.DELETE, "/api/users/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/api/users/**").hasRole("ADMIN")
 
-                // 🔒 DEFAULT RULE
+                // 🔒 DEFAULT
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
@@ -87,7 +87,13 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:5173")); // frontend origin
+
+        
+        config.setAllowedOrigins(List.of(
+                "http://localhost:5173",
+                "https://ecommerceplatformfrontend.netlify.app"
+        ));
+
         config.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
