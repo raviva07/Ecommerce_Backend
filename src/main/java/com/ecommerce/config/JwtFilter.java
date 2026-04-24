@@ -20,11 +20,15 @@ public class JwtFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final CustomUserDetailsService userDetailsService;
 
-    
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
 
         String path = request.getServletPath();
+
+        // ✅ VERY IMPORTANT: skip preflight
+        if (request.getMethod().equalsIgnoreCase("OPTIONS")) {
+            return true;
+        }
 
         return path.startsWith("/api/auth") ||
                path.startsWith("/v3/api-docs") ||
@@ -76,10 +80,11 @@ public class JwtFilter extends OncePerRequestFilter {
             }
 
         } catch (Exception e) {
-            // 🔥 Prevent breaking request if token invalid
+            // ✅ don't break request
             System.out.println("JWT Error: " + e.getMessage());
         }
 
         filterChain.doFilter(request, response);
     }
 }
+

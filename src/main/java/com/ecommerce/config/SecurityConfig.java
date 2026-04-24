@@ -3,6 +3,7 @@ package com.ecommerce.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,7 +13,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.*;
 
 import java.util.List;
-import org.springframework.http.HttpMethod;
 
 @Configuration
 @RequiredArgsConstructor
@@ -23,9 +23,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+            // ✅ ENABLE CORS
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+
+            // ❌ DISABLE CSRF
             .csrf(csrf -> csrf.disable())
+
             .authorizeHttpRequests(auth -> auth
+
+                // ✅ VERY IMPORTANT → allow preflight
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
                 // ✅ PUBLIC ENDPOINTS
                 .requestMatchers(
@@ -69,37 +76,49 @@ public class SecurityConfig {
                 // 🔒 DEFAULT
                 .anyRequest().authenticated()
             )
+
+            // ✅ ADD JWT FILTER AFTER CORS
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 
+    // ================= PASSWORD =================
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    // ================= AUTH MANAGER =================
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
+    // ================= CORS =================
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
-        
         config.setAllowedOrigins(List.of(
                 "http://localhost:5173",
                 "https://ecommerceplatformfrontend.netlify.app"
         ));
 
-        config.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
+        config.setAllowedMethods(List.of(
+                "GET", "POST", "PUT", "DELETE", "OPTIONS"
+        ));
+
         config.setAllowedHeaders(List.of("*"));
+
         config.setAllowCredentials(true);
+
+        // ✅ VERY IMPORTANT
+        config.setExposedHeaders(List.of("Authorization"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
         return source;
     }
 }
+
