@@ -20,10 +20,7 @@ public class JwtFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final CustomUserDetailsService userDetailsService;
 
-    /**
-     * 🔥 VERY IMPORTANT:
-     * Skip JWT filter for public endpoints like Swagger & Auth
-     */
+    
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
 
