@@ -1,41 +1,56 @@
 HELP.md
+<<<<<<< HEAD
+target/
+.mvn/wrapper/maven-wrapper.jar
+=======
 
 # Maven
 target/
-.mvn/wrapper/maven-wrapper.jar
+!.mvn/wrapper/maven-wrapper.jar
+
+# Allow nested targets (optional)
+>>>>>>> 56e2a306800befd2dddc30112c642be951c7d6ab
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-# IDE - STS / Eclipse
+### STS ###
+.apt_generated
 .classpath
+.factorypath
 .project
 .settings
-.factorypath
 .springBeans
-.apt_generated
 .sts4-cache
 
-# IntelliJ IDEA
+<<<<<<< HEAD
+### IntelliJ IDEA ###
 .idea
 *.iws
 *.iml
 *.ipr
 
-# VS Code
-.vscode/
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# Build folders
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-# NetBeans
+### NetBeans ###
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+=======
+### IntelliJ ###
+.idea
+*.iml
+
+### VS Code ###
+.vscode/
+
+### OS ###
+.DS_Store
+Thumbs.db
+>>>>>>> 56e2a306800befd2dddc30112c642be951c7d6ab
+
